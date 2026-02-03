@@ -52,27 +52,15 @@
 	\end{itemize}
 	
 	
-	Cada año, cerca de 400 000 niños contraen cáncer. Aunque los tipos de cáncer más frecuentes varían en función del país, el de cuello uterino es el más habitual en 23 países.
+	Cada año, cerca de 400 000 niños contraen cáncer. Aunque los tipos de cáncer más frecuentes varían en función del país, el de cuello uterino es el más habitual en 23 países. 
 	
-	El cáncer al ser una enfermedad multifactorial que surge como resultado de alteraciones coordinadas en múltiples niveles de organización biológica. El enfoque de redes complejas permite interpretar el cáncer como un fenómeno sistémico, más que como la consecuencia de mutaciones aisladas.
+	El cáncer de mama es una enfermedad sistémica caracterizada por una profunda reprogramación metabólica, heterogeneidad intratumoral y alta capacidad de adaptación frente a perturbaciones terapéuticas. Estas propiedades no pueden ser comprendidas adecuadamente mediante enfoques reduccionistas, sino que requieren una perspectiva integradora capaz de capturar interacciones no lineales, organización modular y dinámica multiescala.
 	
-	Una \textit{red compleja} es una representación matemática de un sistema compuesto por un conjunto de elementos discretos, denominados \textbf{nodos}, y las interacciones entre ellos, llamadas \textbf{aristas}. Formalmente, una red puede describirse como un grafo 
+	El cáncer de manera general es una enfermedad multifactorial que surge como resultado de alteraciones coordinadas en múltiples niveles de organización biológica. El enfoque de redes complejas permite interpretar el cáncer como un fenómeno sistémico, más que como la consecuencia de mutaciones aisladas.
 	
-	\begin{equation} 
-		G = (V, E), 
-	\end{equation} 
-	
-	donde $V$ es el conjunto de nodos y $E$ el conjunto de enlaces. A diferencia de grafos regulares o aleatorios simples, las redes complejas presentan estructuras topológicas no triviales que emergen de la interacción colectiva de sus componentes.
-	
-	Las redes complejas reales suelen caracterizarse por propiedades distintivas, entre ellas se encuentran: distribuciones de grado altamente heterogéneas, frecuentemente de tipo \textit{scale--free} 
-	
-	\begin{equation} 
-		P(k) \sim k^{-\gamma}, 
-	\end{equation} 
-	
-	la presencia de nodos altamente conectados (\textit{hubs}), un elevado coeficiente de agrupamiento, y una organización modular y jerárquica. Estas propiedades reflejan la coexistencia de orden y desorden, así como la aparición de fenómenos colectivos no lineales.
-	
-	La ventaja principal del estudio de redes coplejas es que el comportamiento global no puede entenderse únicamente a partir de las propiedades individuales de sus componentes. Una de sus limitaciones mas importante es que las redes son representaciones estaticas de los sistemas. Por lo que para llegar a realizar un estudio dinamico se necesita llevar estas interacciones a un sistema de ecuaciones diferenciales ordinario.
+	La investigación moderna sobre el cáncer de mama ha adoptado la teoría de redes complejas para redefinir la enfermedad como un sistema adaptativo complejo con una complejidad algorítmica intratable,. Este enfoque permite modelar propiedades emergentes, como la invasión metastásica y la resistencia a los tratamientos, que surgen de comportamientos colectivos que no pueden explicarse únicamente por la suma de sus partes moleculares,. Una de sus utilidades más destacadas es la caracterización de subtipos moleculares, donde algoritmos como DCloc y DCglob analizan la topología diferencial de las redes de correlación para identificar cómo se organizan los genes en tumores con receptores de estrógeno positivos o negativos,. Estas herramientas han revelado que la enfermedad puede ser entendida como un conjunto de redes de regulación genética donde incluso genes que no varían su expresión total pueden mostrar patrones de conectividad radicalmente distintos según el subtipo clínico.
+	En el nivel proteómico, el análisis de redes de interacción proteína-proteína (PPI) ha sido fundamental para identificar genes "hub" o nodos centrales, como FPR2, CXCR4 y GPR37, que desempeñan roles desproporcionadamente importantes en la metástasis hacia órganos específicos como el cerebro y los pulmones,,. Además, estas redes permiten visualizar la metástasis no como un acto celular aislado, sino como el resultado de redes de comunicación paracrina en las que las células cancerosas cooptan a fibroblastos, células endoteliales y leucocitos para remodelar la matriz extracelular y facilitar la invasión. De igual manera, el estudio de redes basadas en información mutua ha permitido descifrar cómo familias de micro-ARN, particularmente miR-200 y miR-199, cooperan para regular la plasticidad epitelio-mesénquima, un proceso crítico para la supervivencia y propagación del tumor.
+	Hacia el futuro, la utilidad de las redes complejas se expande mediante la creación de Gemelos Digitales, los cuales utilizan estructuras multicapa para integrar datos genómicos, proteómicos y clínicos en réplicas virtuales dinámicas que predicen la trayectoria de la enfermedad y personalizan la terapia,,. Complementariamente, la aplicación de la teoría de redes en el aprendizaje profundo ha llevado al desarrollo de redes neuronales hipercomplejas y mapas de atención que mejoran la interpretación de mamografías,. Estos modelos avanzados permiten capturar relaciones locales entre las imágenes y los focos de interés clínico, ayudando a los radiólogos a identificar tumores malignos en etapas tempranas con una precisión superior y mediante algoritmos computacionalmente más eficientes.
 	
 	\subsection{Conexión con modelos dinámicos}
 	
@@ -86,7 +74,7 @@
 	
 	El objetivo de este trabajo es formular rigurosamente ambos tipos de modelos, analizar sus propiedades matemáticas fundamentales e implementar su resolución numérica utilizando Python.
 	
-	El cáncer de mama es una enfermedad sistémica caracterizada por una profunda reprogramación metabólica, heterogeneidad intratumoral y alta capacidad de adaptación frente a perturbaciones terapéuticas. Estas propiedades no pueden ser comprendidas adecuadamente mediante enfoques reduccionistas, sino que requieren una perspectiva integradora capaz de capturar interacciones no lineales, organización modular y dinámica multiescala.
+	
 	
 	Las redes metabólicas del cáncer constituyen sistemas complejos donde la robustez funcional emerge de la redundancia, la modularidad y la jerarquía topológica. Sin embargo, esta robustez estructural no implica necesariamente estabilidad dinámica, pudiendo coexistir con regímenes altamente sensibles y propensos a transiciones dinámicas. En este contexto, la biología de sistemas y la teoría de redes complejas proporcionan el marco conceptual para conectar estructura, función y dinámica.
 	
