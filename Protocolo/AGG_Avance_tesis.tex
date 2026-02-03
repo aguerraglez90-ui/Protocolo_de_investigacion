@@ -1,85 +1,35 @@
-\documentclass[12pt,letterpaper]{article}
-
-% =========================
-% PAQUETES BÁSICOS
-% =========================
-\usepackage[spanish]{babel}
+\documentclass[12pt,spanish]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
+\usepackage{babel}
+\usepackage{amsmath, amssymb}
 \usepackage{geometry}
-\geometry{left=3cm,right=2.5cm,top=3cm,bottom=3cm}
 \usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{hyperref}
+\geometry{margin=2.5cm}
 \onehalfspacing
 
-% =========================
-% MATEMÁTICAS
-% =========================
-\usepackage{amsmath,amssymb,amsfonts}
-\usepackage{bm}
-\usepackage{physics}
-
-% =========================
-% FIGURAS Y TABLAS
-% =========================
-\usepackage{graphicx}
-\usepackage{float}
-\usepackage{booktabs}
-
-% =========================
-% CÓDIGO
-% =========================
-\usepackage{listings}
-\usepackage{xcolor}
-
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codeblue}{rgb}{0.0,0.2,0.6}
-
-\lstset{
-	language=Python,
-	basicstyle=\ttfamily\small,
-	keywordstyle=\color{codeblue},
-	commentstyle=\color{codegray},
-	numbers=left,
-	numberstyle=\tiny,
-	stepnumber=1,
-	numbersep=5pt,
-	frame=single,
-	breaklines=true,
-	tabsize=2
-}
-
-% =========================
-% BIBLIOGRAFÍA
-% =========================
-\usepackage[numbers]{natbib}
-
-% =========================
-% DATOS DEL DOCUMENTO
-% =========================
-\title{\textbf{Protocolo  de Investigacion}}
-\author{
-	Nombre del Autor \\
-	\small Posgrado en Ciencias en Ingeniería Química \\
-	\small Universidad Autónoma de San Luis Potosí
-}
-\date{\small \today}
+\title{\textbf{Modelado multiescala de la red metabólica del cáncer de mama:}\\
+	Redes complejas, dinámica no lineal y patrones de Turing}
+\author{Alejandro Guerra González\\
+	Asesor: Dr. Erik César Herrera Hernández\\
+	Facultad de Ciencias Químicas, UASLP}
+\date{}
 
 \begin{document}
 	\maketitle
 	
-	% =========================
-	% RESUMEN
-	% =========================
-	\begin{abstract}
-		En este trabajo se presenta la formulación matemática, el análisis dinámico y la implementación computacional de sistemas descritos mediante ecuaciones diferenciales ordinarias y ecuaciones de reacción--difusión. Se estudian los supuestos físicos involucrados, la estabilidad de soluciones y la resolución numérica mediante métodos estándar. La implementación en Python permite reproducir los resultados y analizar escenarios dinámicos relevantes para sistemas químicos y biológicos.
-	\end{abstract}
+	\section{Resumen}
 	
-	\noindent \textbf{Palabras clave:} ecuaciones diferenciales, reacción--difusión, modelación matemática, simulación numérica.
+	Este proyecto propone un marco de biología de sistemas para el estudio del cáncer de mama basado en la integración jerárquica de redes complejas, dinámica de sistemas no lineales y modelos de reacción--difusión. A partir de la reconstrucción de una red metabólica específica del cáncer de mama usando la base de datos KEGG, la red se caracteriza como un sistema complejo, se descompone en comunidades mediante el algoritmo de Louvain y posteriormente se reduce dinámicamente mediante dos enfoques complementarios: separación de escalas de tiempo y renormalización por comunidades. El resultado es un sistema efectivo de ecuaciones diferenciales ordinarias (EDO), con una ecuación representativa por comunidad metabólica.
 	
-	% =========================
-	\section{Introducción}
-	% =========================
+	Sobre este sistema reducido se analiza la complejidad dinámica, evaluando estabilidad, robustez y sensibilidad paramétrica. Finalmente, se incorporan términos de difusión para construir modelos de reacción--difusión que permitan estudiar inestabilidades de Turing y la emergencia de patrones espaciales metabólicos. El objetivo final es relacionar la organización topológica de la red, su robustez estructural y su complejidad dinámica con la heterogeneidad metabólica observada en tumores de mama.
+	
+	\section{Introducción y justificación}
+	
 	Segun la Organizacion Mundial de la Salud (OMS), se denomina cancer a un amplio grupo de enfermedades que pueden afectar a cualquier parte del organismo; también se habla de «tumores malignos» o «neoplasias malignas». Una característica definitoria del cáncer es la multiplicación rápida de células anormales que se extienden más allá de sus límites habituales y pueden invadir partes adyacentes del cuerpo o propagarse a otros órganos, en un proceso que se denomina «metástasis». En 2020 fue la primera causa de muerte a nivel mundial, llegando a un numero total de casi 10 millones de defunciones por esta enfermedad. Los cánceres más comunes en 2020, por lo que se refiere a incidencia, fueron los siguientes:
 	
 	\begin{itemize}
@@ -101,7 +51,7 @@
 		\item mama (685\,000 defunciones).
 	\end{itemize}
 	
-
+	
 	Cada año, cerca de 400 000 niños contraen cáncer. Aunque los tipos de cáncer más frecuentes varían en función del país, el de cuello uterino es el más habitual en 23 países.
 	
 	El cáncer al ser una enfermedad multifactorial que surge como resultado de alteraciones coordinadas en múltiples niveles de organización biológica. El enfoque de redes complejas permite interpretar el cáncer como un fenómeno sistémico, más que como la consecuencia de mutaciones aisladas.
@@ -119,160 +69,130 @@
 	\begin{equation} 
 		P(k) \sim k^{-\gamma}, 
 	\end{equation} 
-
+	
 	la presencia de nodos altamente conectados (\textit{hubs}), un elevado coeficiente de agrupamiento, y una organización modular y jerárquica. Estas propiedades reflejan la coexistencia de orden y desorden, así como la aparición de fenómenos colectivos no lineales.
 	
 	La ventaja principal del estudio de redes coplejas es que el comportamiento global no puede entenderse únicamente a partir de las propiedades individuales de sus componentes. Una de sus limitaciones mas importante es que las redes son representaciones estaticas de los sistemas. Por lo que para llegar a realizar un estudio dinamico se necesita llevar estas interacciones a un sistema de ecuaciones diferenciales ordinario.
-		
+	
 	\subsection{Conexión con modelos dinámicos}
 	
 	El formalismo de redes complejas permite extender el análisis estructural hacia modelos dinámicos, por ejemplo mediante sistemas de ecuaciones diferenciales ordinarias acopladas por la matriz de adyacencia de la red: 
 	\begin{equation}
 		\dot{x}_i = f(x_i) + \sum_{j} A_{ij}\, g(x_i, x_j)
 	\end{equation}
-	 
-
+	
+	
 	donde $x_i$ representa la actividad del nodo $i$ y $A_{ij}$ codifica la estructura de interacciones. Este enfoque posibilita el estudio de estabilidad, bifurcaciones y transiciones dinámicas relevantes para la progresión tumoral.
 	
 	El objetivo de este trabajo es formular rigurosamente ambos tipos de modelos, analizar sus propiedades matemáticas fundamentales e implementar su resolución numérica utilizando Python.
 	
-	% =========================
-	\section{Marco Teórico}
-	% =========================
+	El cáncer de mama es una enfermedad sistémica caracterizada por una profunda reprogramación metabólica, heterogeneidad intratumoral y alta capacidad de adaptación frente a perturbaciones terapéuticas. Estas propiedades no pueden ser comprendidas adecuadamente mediante enfoques reduccionistas, sino que requieren una perspectiva integradora capaz de capturar interacciones no lineales, organización modular y dinámica multiescala.
 	
-	\subsection{Sistemas de ecuaciones diferenciales ordinarias}
-	Un sistema dinámico continuo puede expresarse en forma general como:
-	\begin{equation}
-		\frac{d\bm{x}}{dt} = \bm{f}(\bm{x},t), \quad \bm{x}(0)=\bm{x}_0
-	\end{equation}
-	donde $\bm{x}(t)\in\mathbb{R}^n$ representa el vector de estados y $\bm{f}$ describe la cinética del sistema.
+	Las redes metabólicas del cáncer constituyen sistemas complejos donde la robustez funcional emerge de la redundancia, la modularidad y la jerarquía topológica. Sin embargo, esta robustez estructural no implica necesariamente estabilidad dinámica, pudiendo coexistir con regímenes altamente sensibles y propensos a transiciones dinámicas. En este contexto, la biología de sistemas y la teoría de redes complejas proporcionan el marco conceptual para conectar estructura, función y dinámica.
 	
-	En el contexto de reacciones químicas homogéneas, las ecuaciones adoptan la forma:
-	\begin{equation}
-		\frac{dC_i}{dt} = R_i(C_1,C_2,\dots,C_N), \quad i=1,\dots,N
-	\end{equation}
-	donde $C_i$ es la concentración de la especie $i$ y $R_i$ la velocidad de reacción correspondiente.
+	La teoría de patrones de Turing ofrece un marco adicional para comprender cómo interacciones locales y difusión diferencial pueden generar heterogeneidad espacial espontánea. Su aplicación al metabolismo del cáncer permite formular hipótesis mecanicistas sobre la aparición de gradientes metabólicos, nichos funcionales y zonificación tumoral.
 	
-	\subsubsection{Análisis de estabilidad}
-	Los puntos estacionarios $\bm{x}^*$ satisfacen:
-	\begin{equation}
-		\bm{f}(\bm{x}^*) = \bm{0}
-	\end{equation}
-	La estabilidad local se determina mediante el Jacobiano:
-	\begin{equation}
-		J_{ij} = \left.\frac{\partial f_i}{\partial x_j}\right|_{\bm{x}=\bm{x}^*}
-	\end{equation}
-	La naturaleza de los autovalores de $J$ define el comportamiento dinámico local del sistema.
+	\section{Marco teórico}
 	
-	% =========================
-	\subsection{Sistemas de reacción--difusión}
-	% =========================
-	Los sistemas de reacción--difusión incorporan transporte espacial mediante difusión:
-	\begin{equation}
-		\frac{\partial C_i}{\partial t} =
-		D_i \nabla^2 C_i + R_i(\bm{C}), \quad i=1,\dots,N
-	\end{equation}
-	donde $D_i$ es el coeficiente de difusión de la especie $i$.
+	\subsection{Redes complejas en biología de sistemas}
 	
-	\subsubsection{Condiciones iniciales y de frontera}
-	El problema se completa con:
-	\begin{align}
-		C_i(\bm{x},0) &= C_{i,0}(\bm{x}) \\
-		\nabla C_i \cdot \bm{n} &= 0 \quad \text{(condición de no flujo)}
-	\end{align}
+	Una red compleja se define como un grafo cuya topología presenta propiedades emergentes no triviales, tales como distribuciones de grado no aleatorias, modularidad y presencia de nodos altamente conectados. En redes metabólicas, los nodos representan metabolitos o reacciones, mientras que las aristas representan transformaciones bioquímicas. Estas redes suelen exhibir topologías de tipo libre de escala, lo que confiere robustez frente a perturbaciones aleatorias y vulnerabilidad frente a ataques dirigidos.
 	
-	\subsubsection{Inestabilidad de Turing}
-	La aparición de patrones espaciales ocurre cuando un estado homogéneo estable frente a perturbaciones homogéneas se vuelve inestable frente a perturbaciones espaciales, lo cual se analiza mediante una descomposición modal del tipo:
-	\begin{equation}
-		C_i = C_i^* + \epsilon e^{\lambda t} \cos(kx)
-	\end{equation}
+	\subsection{Comunidades metabólicas y modularidad}
 	
-	% =========================
-	\section{Metodología Numérica}
-	% =========================
-	Para la resolución numérica de EDO se emplean métodos de integración temporal adaptativos basados en Runge--Kutta. En el caso de ecuaciones de reacción--difusión, se utiliza discretización espacial mediante diferencias finitas y esquemas explícitos o implícitos para el avance temporal.
+	La descomposición de la red en comunidades mediante el algoritmo de Louvain permite identificar módulos funcionales altamente interconectados. Estas comunidades pueden interpretarse como unidades metabólicas coherentes, y constituyen la escala mesoscópica natural para la reducción dinámica del sistema.
 	
-	% =========================
-	\section{Implementación en Python}
-	% =========================
+	\subsection{Robustez estructural y dinámica}
 	
-	\subsection{Sistema de EDO}
-	El siguiente script resuelve un sistema cinético simple usando \texttt{SciPy}:
+	La robustez estructural se refiere a la capacidad de la red para mantener su conectividad global frente a perturbaciones topológicas, mientras que la robustez dinámica describe la persistencia de estados estacionarios o atractores frente a variaciones paramétricas. En sistemas cancerosos, la robustez se asocia a la capacidad adaptativa y a la resistencia terapéutica.
 	
-	\begin{lstlisting}
-		import numpy as np
-		from scipy.integrate import solve_ivp
-		import matplotlib.pyplot as plt
-		
-		def model(t, y):
-		k1, k2 = 1.0, 0.5
-		A, B = y
-		dA = -k1 * A
-		dB = k1 * A - k2 * B
-		return [dA, dB]
-		
-		t_span = (0, 10)
-		y0 = [1.0, 0.0]
-		
-		sol = solve_ivp(model, t_span, y0, dense_output=True)
-		
-		t = np.linspace(0, 10, 200)
-		y = sol.sol(t)
-		
-		plt.plot(t, y[0], label='A')
-		plt.plot(t, y[1], label='B')
-		plt.legend()
-		plt.xlabel('Tiempo')
-		plt.ylabel('Concentración')
-		plt.show()
-	\end{lstlisting}
+	\subsection{Complejidad en sistemas dinámicos}
 	
-	\subsection{Sistema de reacción--difusión unidimensional}
-	\begin{lstlisting}
-		Nx = 100
-		L = 10.0
-		dx = L / Nx
-		dt = 0.01
-		D = 0.1
-		
-		C = np.ones(Nx) + 0.01*np.random.rand(Nx)
-		
-		for n in range(1000):
-		C[1:-1] += dt * (
-		D * (C[2:] - 2*C[1:-1] + C[:-2]) / dx**2
-		- C[1:-1]
-		)
-	\end{lstlisting}
+	Desde la dinámica no lineal, la complejidad se manifiesta mediante la coexistencia de múltiples escalas temporales, sensibilidad a condiciones iniciales, bifurcaciones y emergencia de patrones espacio-temporales. La transición de una red compleja a un sistema de EDO permite estudiar cómo la complejidad estructural se traduce en complejidad dinámica.
 	
-	% =========================
-	\section{Resultados y Discusión}
-	% =========================
-	Los resultados numéricos muestran una evolución temporal consistente con la cinética teórica esperada. En los sistemas de reacción--difusión se observa la amplificación de perturbaciones espaciales bajo condiciones específicas de parámetros, lo cual concuerda con el análisis lineal de estabilidad.
+	\subsection{Red metabólica del cáncer de mama}
 	
-	Desde el punto de vista computacional, los métodos empleados presentan buena estabilidad para pasos de tiempo moderados, aunque los esquemas explícitos imponen restricciones de tipo CFL.
+	El metabolismo del cáncer de mama involucra metabolitos centrales como glucosa, lactato, glutamina, NADH/NAD$^+$ y ATP, así como rutas clave como la glucólisis aeróbica, el metabolismo de glutamina y lípidos. Estas rutas se encuentran acopladas a vías de señalización como PI3K/Akt/mTOR y HIF-1$\alpha$, integrando metabolismo, señalización celular y microambiente tumoral.
 	
-	% =========================
-	\section{Ventajas y Limitaciones}
-	% =========================
-	Entre las principales ventajas del enfoque propuesto se encuentra su claridad conceptual y facilidad de implementación. Sin embargo, para sistemas rígidos o dominios espaciales complejos, se requieren métodos implícitos o esquemas de elementos finitos con mayor costo computacional.
+	\section{Hipótesis y objetivos}
 	
-	% =========================
-	\section{Conclusiones}
-	% =========================
-	Se presentó una formulación matemática rigurosa de sistemas dinámicos descritos por ecuaciones diferenciales ordinarias y de reacción--difusión, junto con su implementación numérica en Python. El enfoque permite estudiar estabilidad, dinámica transitoria y formación de patrones, siendo aplicable a una amplia variedad de sistemas físico-químicos.
+	\subsection{Hipótesis}
 	
-	% =========================
-	\bibliographystyle{plainnat}
-	\begin{thebibliography}{9}
-		\bibitem{murray}
-		J. D. Murray,
-		\textit{Mathematical Biology},
-		Springer, 2002.
-		
-		\bibitem{logan}
-		J. D. Logan,
-		\textit{Applied Mathematics},
-		Wiley, 2014.
-	\end{thebibliography}
+	La reducción multiescala de la red metabólica del cáncer de mama a nivel de comunidades permite identificar sistemas dinámicos efectivos que exhiben robustez estructural, complejidad dinámica e inestabilidades de tipo Turing responsables de la heterogeneidad metabólica espacial.
+	
+	\subsection{Objetivo general}
+	
+	Desarrollar y analizar un modelo dinámico multiescala de la red metabólica del cáncer de mama, integrando redes complejas, reducción por comunidades y modelos de reacción--difusión para estudiar robustez y complejidad dinámica.
+	
+	\subsection{Objetivos específicos}
+	
+	\begin{itemize}
+		\item Reconstruir y caracterizar la red metabólica del cáncer de mama como red compleja.
+		\item Identificar comunidades metabólicas funcionales mediante el algoritmo de Louvain.
+		\item Derivar un sistema de EDO reducido mediante separación de escalas de tiempo y renormalización.
+		\item Analizar estabilidad, robustez y sensibilidad paramétrica del sistema dinámico.
+		\item Explorar patrones espaciales de tipo Turing en el sistema reducido.
+	\end{itemize}
+	
+	\section{Metodología}
+	
+	\subsection{Fase 1: Reconstrucción y análisis topológico}
+	
+	Se reconstruirá la red metabólica a partir de KEGG y se caracterizará mediante métricas topológicas como grado, centralidad de intermediación, coeficiente de agrupamiento y modularidad, empleando herramientas computacionales en Python.
+	
+	\subsection{Fase 2: Detección de comunidades}
+	
+	Se aplicará el algoritmo de Louvain para identificar comunidades metabólicas, las cuales se interpretarán como módulos funcionales.
+	
+	\subsection{Fase 3: Reducción dinámica}
+	
+	La red será reducida mediante separación de escalas de tiempo y renormalización por comunidades, obteniendo un sistema de ecuaciones diferenciales ordinarias con una ecuación representativa por comunidad.
+	
+	\subsection{Fase 4: Análisis dinámico y robustez}
+	
+	Se evaluará la estabilidad de estados estacionarios, la sensibilidad paramétrica global (índices de Sobol) y la robustez dinámica frente a perturbaciones paramétricas.
+	
+	\subsection{Fase 5: Modelos de reacción--difusión y patrones de Turing}
+	
+	Se incorporarán términos de difusión al sistema reducido para analizar inestabilidades de Turing, realizar simulaciones numéricas y construir un Atlas de Turing metabólico.
+	
+	\section{Tareas del proyecto}
+	
+	\begin{enumerate}
+		\item Revisión bibliográfica en redes complejas, metabolismo del cáncer y dinámica de sistemas.
+		\item Reconstrucción de la red metabólica del cáncer de mama.
+		\item Análisis topológico y detección de comunidades.
+		\item Desarrollo del modelo dinámico completo y reducido.
+		\item Análisis de estabilidad, sensibilidad y robustez.
+		\item Implementación de modelos de reacción--difusión.
+		\item Construcción del Atlas de Turing.
+		\item Análisis e interpretación de resultados.
+		\item Redacción de informes, artículos y tesis.
+	\end{enumerate}
+	
+	\section{Calendario de actividades (24 meses)}
+	
+	\begin{longtable}{lcccc}
+		\toprule
+		\textbf{Actividad} & \textbf{1--6} & \textbf{7--12} & \textbf{13--18} & \textbf{19--24} \\
+		\midrule
+		Revisión bibliográfica & X &  &  &  \\
+		Reconstrucción de la red & X & X &  &  \\
+		Análisis topológico y comunidades &  & X &  &  \\
+		Modelo dinámico y reducción &  & X & X &  \\
+		Análisis de robustez y sensibilidad &  &  & X &  \\
+		Modelos de reacción--difusión &  &  & X & X \\
+		Atlas de Turing &  &  &  & X \\
+		Redacción final &  &  &  & X \\
+		\bottomrule
+	\end{longtable}
+	
+	\section{Resultados esperados}
+	
+	Se espera obtener una caracterización topológica completa de la red metabólica del cáncer de mama, un modelo dinámico reducido interpretable, una cuantificación de la robustez y complejidad del sistema y un Atlas de Turing que relacione parámetros metabólicos con patrones espaciales emergentes.
+	
+	\section{Impacto esperado}
+	
+	Este trabajo contribuirá a un entendimiento sistémico del metabolismo del cáncer de mama, conectando estructura, dinámica y espacio, y generando hipótesis testables sobre heterogeneidad metabólica y posibles vulnerabilidades terapéuticas.
 	
 \end{document}
